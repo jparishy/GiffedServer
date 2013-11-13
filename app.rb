@@ -1,5 +1,5 @@
 require 'sinatra'
-require 'rmagick'
+require 'RMagick'
 
 def delay(fps)
   (100.0 / fps) 
