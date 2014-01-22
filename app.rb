@@ -16,8 +16,6 @@ post '/gifify' do
   filename = filenames[0]
   output_filename = `./convert.rb '#{filename}'`
   output_filename.strip!
-  
-  puts "Name: '#{output_filename}'"
 
   send_file(output_filename, :filename => "converted.gif", :type => "image/gif")
 end
