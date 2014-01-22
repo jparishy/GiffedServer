@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'RMagick'
 
+puts "lol"
+
 def delay(fps)
   (100.0 / fps) 
 end
