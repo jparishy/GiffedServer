@@ -11,9 +11,12 @@ output_filename = "/tmp/" + Dir::Tmpname.make_tmpname('output', nil) + ".gif"
 
 num_colors = 128
 while true do
+  # Make the GIF, using num_colors colors
   `gifsicle -O3 --colors #{num_colors} --loop #{out_filename_base}* > #{output_filename}`
-  num_colors = num_colors == 128 ? 64 : num_colors - 8
-  if File.stat(output_filename).size <= 2 * 10 ** 6 || num_colors < 24
+  # Kill every other frame from it.
+  `gifsicle #{out_filename_base} \`seq -f "#%g" 0 2 $(identify #{out_filename_base} | tail -1 | cut -d "[" -f2 - | cut -d "]" -f1 -)\` --unoptimize -o #{out_filename_base}`
+  if File.stat(output_filename).size <= 2 * 10 ** 6 || num_colors < 32
+      num_colors = num_colors == 128 ? 64 : num_colors - 8
       break
   end
 end
