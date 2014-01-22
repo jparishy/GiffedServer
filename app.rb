@@ -13,15 +13,11 @@ post '/gifify' do
 
   puts filenames
 
-  animation = Magick::ImageList.new
+  filename = filenames[0]
+  output_filename = `./convert.rb '#{filename}'`
+  output_filename.strip!
+  
+  puts "Name: '#{output_filename}'"
 
-  filenames.each do |filename|
-    converted = Magick::Image.read filename
-    animation.from_blob converted[0].to_blob { |attributes| attributes.format = 'GIF' }
-  end
-
-  animation.delay = delay(24)
-  animation.iterations = 0
-
-  animation.to_blob
+  send_file(output_filename, :filename => "converted.gif", :type => "image/gif")
 end
